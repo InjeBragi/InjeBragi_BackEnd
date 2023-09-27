@@ -1,6 +1,6 @@
-package com.inje.bragi.entity.dto.response;
+package com.inje.bragi.dto.response;
 
-import com.inje.bragi.entity.common.MemberType;
+import com.inje.bragi.common.MemberType;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record SignInResponse(
