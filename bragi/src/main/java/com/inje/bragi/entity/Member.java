@@ -1,8 +1,8 @@
 package com.inje.bragi.entity;
 
-import com.inje.bragi.entity.common.MemberType;
-import com.inje.bragi.entity.dto.request.MemberUpdateRequest;
-import com.inje.bragi.entity.dto.request.SignUpRequest;
+import com.inje.bragi.common.MemberType;
+import com.inje.bragi.dto.request.MemberUpdateRequest;
+import com.inje.bragi.dto.request.SignUpRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigInteger;
-import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor

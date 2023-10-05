@@ -1,4 +1,4 @@
-package com.inje.bragi.entity.common;
+package com.inje.bragi.common;
 
 public enum ApiStatus {
     SUCCESS,
