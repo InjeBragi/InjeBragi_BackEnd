@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @Configuration
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final String[] allowedUrls = {"/sign-up", "/sign-in"};
+    private final String[] allowedUrls = {"/sign-up", "/sign-in", "/search"};
 
     @Bean
     public PasswordEncoder passwordEncoder() {
