@@ -30,7 +30,7 @@ public class SpotifyService {
                 .setAccessToken(SpotifyConfig.accessToken())
                 .build();
         List <SearchTracksResponse> searchTracksResponses = new ArrayList<>();
-        Song song = new Song();
+        Song song;
         try {
             SearchTracksRequest searchTrackRequest = spotifyApi.searchTracks(keyword)
                     .limit(10)
@@ -63,5 +63,13 @@ public class SpotifyService {
         }
 
         return searchTracksResponses;
+    }
+
+    @Transactional
+    public String getAccessToken(){
+        SpotifyApi spotifyApi = new SpotifyApi.Builder()
+                .setAccessToken(SpotifyConfig.accessToken())
+                .build();
+        return spotifyApi.getAccessToken();
     }
 }

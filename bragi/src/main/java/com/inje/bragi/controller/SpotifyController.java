@@ -22,4 +22,10 @@ public class SpotifyController {
     public ApiResponse searchMusic(@RequestParam String keyword) {
         return ApiResponse.success(spotifyService.search(keyword));
     }
+
+    @Operation(summary = "Spotify 토큰")
+    @GetMapping("/getToken")
+    public ApiResponse getToken(){
+        return ApiResponse.success(spotifyService.getAccessToken());
+    }
 }

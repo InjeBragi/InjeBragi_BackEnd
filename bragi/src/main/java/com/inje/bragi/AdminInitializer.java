@@ -1,4 +1,5 @@
-/*package com.inje.bragi;//package com.auth.study;
+/*
+package com.inje.bragi;//package com.auth.study;
 
 import com.inje.bragi.common.MemberType;
 import com.inje.bragi.entity.Member;
@@ -26,4 +27,5 @@ public class AdminInitializer implements ApplicationRunner {
                 .type(MemberType.ADMIN)
                 .build());
     }
-}*/
+}
+*/
