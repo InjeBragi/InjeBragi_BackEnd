@@ -4,7 +4,9 @@ import com.inje.bragi.dto.request.SignInRequest;
 import com.inje.bragi.dto.request.SignUpRequest;
 import com.inje.bragi.dto.response.SignInResponse;
 import com.inje.bragi.dto.response.SignUpResponse;
+import com.inje.bragi.entity.Image;
 import com.inje.bragi.entity.Member;
+import com.inje.bragi.repository.ImageRepository;
 import com.inje.bragi.repository.MemberRepository;
 import com.inje.bragi.security.TokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -19,16 +21,26 @@ public class SignService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder encoder;
     private final TokenProvider tokenProvider;
+    private final ImageRepository imageRepository;
 
     @Transactional
     public SignUpResponse registerMember(SignUpRequest request) {
         Member member = memberRepository.save(Member.from(request, encoder));
+        Image image = Image.builder()
+                .url("/profileImage/anonymous.png")
+                .member(member)
+                .build();
+        imageRepository.save(image);
         try {
             memberRepository.flush();
         } catch (DataIntegrityViolationException e) {
             throw new IllegalArgumentException("이미 사용중인 아이디입니다.");
         }
         return SignUpResponse.from(member);
+    }
+
+    public void saveUserAccountWithoutProfile(SignUpRequest request){
+
     }
 
     @Transactional(readOnly = true)

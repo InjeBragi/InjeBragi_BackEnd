@@ -24,7 +24,7 @@ public class SpotifyController {
     }
 
     @Operation(summary = "Spotify 토큰")
-    @GetMapping("/getToken")
+    @GetMapping("/get-token")
     public ApiResponse getToken(){
         return ApiResponse.success(spotifyService.getAccessToken());
     }

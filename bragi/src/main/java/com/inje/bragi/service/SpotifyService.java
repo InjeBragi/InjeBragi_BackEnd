@@ -65,7 +65,6 @@ public class SpotifyService {
         return searchTracksResponses;
     }
 
-    @Transactional
     public String getAccessToken(){
         SpotifyApi spotifyApi = new SpotifyApi.Builder()
                 .setAccessToken(SpotifyConfig.accessToken())

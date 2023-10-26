@@ -37,6 +37,13 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberType type;
 
+    private String profileImgName;
+
+    private String profileImgPath;
+
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
+    private Image image;
+
     public static Member from(SignUpRequest request, PasswordEncoder encoder) {
         return Member.builder()
                 .account(request.account())

@@ -18,7 +18,7 @@ import java.math.BigInteger;
 @Entity
 public class Song {
     @Id
-    @SequenceGenerator(name = "member_id_seq", sequenceName = "idx_member", allocationSize = 1)
+    @SequenceGenerator(name = "song_id_seq", sequenceName = "idx_song", allocationSize = 1)
     @GeneratedValue
     private BigInteger id;
 
