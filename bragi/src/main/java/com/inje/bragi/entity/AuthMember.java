@@ -14,8 +14,8 @@ import org.hibernate.annotations.DynamicUpdate;
 @Getter //Lombok 어노테이션으로 getter
 public class AuthMember {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id")
+    @SequenceGenerator(name = "auth_member_id_", sequenceName = "idx_member", allocationSize = 1)
+    @GeneratedValue
     private Long id;
 
     @Column(name = "name", nullable = false)
