@@ -23,6 +23,7 @@ public class AdminInitializer implements ApplicationRunner {
         memberRepository.save(Member.builder()
                 .account("admin")
                 .password((encoder.encode("admin")))
+                .email("admin@admin.com")
                 .name("관리자")
                 .type(MemberType.ADMIN)
                 .build());

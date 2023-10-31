@@ -38,7 +38,7 @@ dependencies {
 	//Spring Security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	testImplementation 'org.springframework.security:spring-security-test'
-	//implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 	//postgreSQL
 	runtimeOnly 'org.postgresql:postgresql'
@@ -51,6 +51,7 @@ dependencies {
 
 	//spotify
 	implementation 'com.github.thelinmichael:spotify-web-api-java:master-SNAPSHOT'
+
 }
 
 allprojects {
