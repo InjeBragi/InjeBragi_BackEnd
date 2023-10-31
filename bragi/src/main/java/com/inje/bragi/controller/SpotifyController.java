@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Spotify API")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping
+@RequestMapping("/spotify")
 public class SpotifyController {
     private final SpotifyService spotifyService;
 

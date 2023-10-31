@@ -37,9 +37,6 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberType type;
 
-    private String profileImgName;
-
-    private String profileImgPath;
 
     @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
     private Image image;
@@ -59,5 +56,6 @@ public class Member {
                 ? this.password : encoder.encode(newMember.newPassword());
         this.name = newMember.name();
         this.age = newMember.age();
+
     }
 }

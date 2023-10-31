@@ -21,10 +21,11 @@ public class ImageController {
 
     private final ImageService imageService;
 
-    @Operation(summary = "프로필 이미지 업로드")
+    @Operation(summary = "프로필 이미지 변경")
     @PostMapping("/upload")
     public ApiResponse upload(@ModelAttribute ImageUploadRequest imageUploadRequest, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return ApiResponse.success(imageService.upload(imageUploadRequest, userDetails.getUsername()));
     }
+
 }

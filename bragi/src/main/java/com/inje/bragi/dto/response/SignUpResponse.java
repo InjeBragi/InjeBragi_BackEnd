@@ -1,6 +1,5 @@
 package com.inje.bragi.dto.response;
 
-import com.inje.bragi.entity.Image;
 import com.inje.bragi.entity.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -17,18 +16,15 @@ public record SignUpResponse(
         String name,
 
         @Schema(description = "회원 나이", example = "24")
-        Integer age,
+        Integer age
 
-        @Schema(description = "프로필 이미지")
-        Image image
 ) {
     public static SignUpResponse from(Member member) {
         return new SignUpResponse(
                 member.getId(),
                 member.getAccount(),
                 member.getName(),
-                member.getAge(),
-                member.getImage()
+                member.getAge()
         );
     }
 }
