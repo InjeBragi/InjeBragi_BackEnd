@@ -1,6 +1,6 @@
 package com.inje.bragi.security;
 
-import com.inje.bragi.auth.OAuthService;
+import com.inje.bragi.service.OAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @Configuration
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final OAuthService oAuthService;
+    private final  OAuthService oAuthService;
     private final String[] allowedUrls = {"/sign-up", "/sign-in", "/search", "/oauth/loginInfo"};
 
     @Bean

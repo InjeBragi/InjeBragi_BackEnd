@@ -12,14 +12,17 @@ public class UserProfile {
     private String email;
     private String provider;
 
+    private String providerId;
+
     private String nickname;
+    private String profileImageUrl;
 
     public AuthMember toMember() {
         return AuthMember.builder()
                 .name(name)
                 .email(email)
                 .provider(provider)
+                .profileImageUrl(profileImageUrl)
                 .build();
     }
-
 }

@@ -1,5 +1,7 @@
-package com.inje.bragi.auth;
+package com.inje.bragi.service;
 
+import com.inje.bragi.auth.OAuthAttributes;
+import com.inje.bragi.auth.UserProfile;
 import com.inje.bragi.entity.AuthMember;
 import com.inje.bragi.repository.AuthMemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -45,30 +47,28 @@ public class OAuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2
         Map<String, Object> customAttribute = customAttribute(attributes, userNameAttributeName, userProfile, registrationId);
 
         return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority("USER")),
+                Collections.singleton(new SimpleGrantedAuthority(authMember.getTypeValue())),
                 customAttribute,
                 userNameAttributeName);
-
     }
 
-    private Map customAttribute(Map attributes, String userNameAttributeName, UserProfile memberProfile, String registrationId) {
+    private Map customAttribute(Map attributes, String userNameAttributeName, UserProfile userProfile, String registrationId) {
         Map<String, Object> customAttribute = new LinkedHashMap<>();
         customAttribute.put(userNameAttributeName, attributes.get(userNameAttributeName));
         customAttribute.put("provider", registrationId);
-        customAttribute.put("name", memberProfile.getName());
-        customAttribute.put("email", memberProfile.getEmail());
+        customAttribute.put("name", userProfile.getName());
+        customAttribute.put("email", userProfile.getEmail());
+        customAttribute.put("picture", userProfile.getProfileImageUrl());
         return customAttribute;
-
     }
 
     private AuthMember saveOrUpdate(UserProfile userProfile) {
 
         AuthMember authMember = authMemberRepository.findByEmailAndProvider(userProfile.getEmail(), userProfile.getProvider())
-                .map(m -> m.update(userProfile.getName(), userProfile.getEmail())) // OAuth 서비스 사이트에서 유저 정보 변경이 있을 수 있기 때문에 우리 DB에도 update
-                .orElse(userProfile.toMember());
+                .map(m -> m.update(userProfile.getName(), userProfile.getEmail(), userProfile.getProfileImageUrl())) // OAuth 서비스 사이트에서 유저 정보 변경이 있을 수 있기 때문에 우리 DB에도 update
+                .orElse(AuthMember.of(userProfile.getName(), userProfile.getEmail(), userProfile.getProvider(),
+                        userProfile.getProviderId(), userProfile.getProfileImageUrl(), userProfile.getNickname()));
 
         return authMemberRepository.save(authMember);
     }
-
-
 }

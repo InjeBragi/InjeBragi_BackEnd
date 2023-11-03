@@ -38,5 +38,4 @@ public class Song {
                 .imageUrl(imageUrl)
                 .build();
     }
-
 }

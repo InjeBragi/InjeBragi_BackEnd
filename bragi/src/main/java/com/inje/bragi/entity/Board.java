@@ -24,6 +24,4 @@ public class Board {
     private BigInteger id;
 
     private Long boardId;
-
-
 }

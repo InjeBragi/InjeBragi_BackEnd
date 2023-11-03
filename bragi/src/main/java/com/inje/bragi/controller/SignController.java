@@ -32,5 +32,4 @@ public class SignController {
     public ApiResponse signIn(@RequestBody SignInRequest request) {
         return ApiResponse.success(signService.signIn(request));
     }
-
 }

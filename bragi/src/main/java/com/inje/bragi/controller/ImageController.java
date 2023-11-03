@@ -27,5 +27,4 @@ public class ImageController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return ApiResponse.success(imageService.upload(imageUploadRequest, userDetails.getUsername()));
     }
-
 }

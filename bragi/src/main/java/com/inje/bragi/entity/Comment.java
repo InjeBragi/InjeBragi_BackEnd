@@ -26,7 +26,4 @@ public class Comment {
     private Long boardId;
 
     private Long loginId;
-
-
-
 }

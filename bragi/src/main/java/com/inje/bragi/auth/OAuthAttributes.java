@@ -6,19 +6,21 @@ import java.util.function.Function;
 
 public enum OAuthAttributes {
     GOOGLE("google", (attributes) -> {
-        UserProfile memberProfile = new UserProfile();
-        memberProfile.setName((String) attributes.get("name"));
-        memberProfile.setEmail((String) attributes.get("email"));
-        return memberProfile;
+        UserProfile userProfile = new UserProfile();
+        userProfile.setName((String) attributes.get("name"));
+        userProfile.setEmail((String) attributes.get("email"));
+        userProfile.setProfileImageUrl((String) attributes.get("picture"));
+        return userProfile;
     }),
 
     NAVER("naver", (attributes) -> {
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
         System.out.println(response);
-        UserProfile memberProfile = new UserProfile();
-        memberProfile.setName((String) response.get("name"));
-        memberProfile.setEmail(((String) response.get("email")));
-        return memberProfile;
+        UserProfile userProfile = new UserProfile();
+        userProfile.setName((String) response.get("name"));
+        userProfile.setEmail(((String) response.get("email")));
+        userProfile.setProfileImageUrl((String) attributes.get("picture"));
+        return userProfile;
     }),
 
     KAKAO("kakao", (attributes) -> {
@@ -30,6 +32,7 @@ public enum OAuthAttributes {
         UserProfile userProfile = new UserProfile();
         userProfile.setName((String) kakaoProfile.get("nickname"));
         userProfile.setEmail((String) kakaoAccount.get("email"));
+        userProfile.setProfileImageUrl((String) attributes.get("picture"));
         return userProfile;
     });
 
