@@ -30,6 +30,7 @@ public class SignService {
                 .url("/profileImage/anonymous.png")
                 .member(member)
                 .build();
+
         imageRepository.save(image);
         try {
             memberRepository.flush();

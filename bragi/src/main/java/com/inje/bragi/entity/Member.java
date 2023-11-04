@@ -37,6 +37,8 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberType type;
 
+    //private String profileImageUrl;
+
     @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
     private Image image;
 
