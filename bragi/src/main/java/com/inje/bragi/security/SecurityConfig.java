@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final  OAuthService oAuthService;
-    private final String[] allowedUrls = {"/sign-up", "/sign-in", "/search", "/oauth/loginInfo"};
+    private final String[] allowedUrls = {"/sign-up", "/sign-in", "/search", "/oauth/loginInfo", "/member/upload"};
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -28,7 +28,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-         http
+        http
                 .csrf().disable()
                 //.headers(headers -> headers.frameOptions().sameOrigin())	// H2 콘솔 사용을 위한 설정
                 .authorizeHttpRequests(requests ->
@@ -42,10 +42,10 @@ public class SecurityConfig {
                 )	// 세션을 사용하지 않으므로 STATELESS 설정
                 .addFilterBefore(jwtAuthenticationFilter, BasicAuthenticationFilter.class)// 추가
                 .oauth2Login()
-                 .defaultSuccessUrl("/oauth/loginInfo", true)// OAuth2 로그인 설정 시작
+                .defaultSuccessUrl("/oauth/loginInfo", true)// OAuth2 로그인 설정 시작
                 .userInfoEndpoint() // UserInfo 엔드포인트 설정
                 .userService(oAuthService) // 커스텀 OAuth2 사용자 서비스 설정
                 .and();
-         return http.build();
+        return http.build();
     }
 }
