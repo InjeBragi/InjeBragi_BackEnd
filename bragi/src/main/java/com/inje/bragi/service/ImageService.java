@@ -22,7 +22,8 @@ public class ImageService {
 
     private final ImageRepository imageRepository;
     private final MemberRepository memberRepository;
-    @Value("${file.profileImagePath}")
+
+    @Value("${classpath:profileImages/}")
     private String uploadFolder;
 
     public ImageUploadResponse upload(ImageUploadRequest imageUploadRequest, String account) {
