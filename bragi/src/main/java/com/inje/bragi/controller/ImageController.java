@@ -33,7 +33,7 @@ public class ImageController {
         return ApiResponse.success(imageService.upload(imageUploadRequest, userDetails.getUsername()));
     }
 
-    @GetMapping("/images/{imageName:.+}")
+    @GetMapping("/images/profileImage/{imageName:.+}")
     public ResponseEntity<Resource> serveImage(@PathVariable String imageName) {
         try {
             Resource imageResource = new ClassPathResource("profileImages/" + imageName);
