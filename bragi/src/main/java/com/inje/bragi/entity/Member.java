@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigInteger;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,10 +38,23 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberType type;
 
-    //private String profileImageUrl;
+    //private String profileImgPath;
+
+    //private String profileImgName;
 
     @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
     private Image image;
+
+    private Integer receivedLikeCnt;
+
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
+    private List<Board> boards;     // 작성글
+
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
+    private List<Like> likes;       // 유저가 누른 좋아요
+
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
+    private List<Comment> comments; // 댓글
 
     public static Member from(SignUpRequest request, PasswordEncoder encoder) {
         return Member.builder()
@@ -57,6 +71,9 @@ public class Member {
                 ? this.password : encoder.encode(newMember.newPassword());
         this.name = newMember.name();
         this.age = newMember.age();
+    }
 
+    public void likeChange(Integer receivedLikeCnt) {
+        this.receivedLikeCnt = receivedLikeCnt;
     }
 }

@@ -1,27 +1,58 @@
 package com.inje.bragi.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
+import com.inje.bragi.dto.BoardDto;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.math.BigInteger;
+import java.util.List;
 
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Getter
-public class Board {
+public class Board extends BaseEntity{
 
     @Id
-    @SequenceGenerator(name = "board_id_seq", sequenceName = "idx_board", allocationSize = 1)
-    @GeneratedValue
-    private BigInteger id;
+    @SequenceGenerator(name = "board_id", sequenceName = "idx_board", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private Long boardId;
+    private String title;
+    private String body;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member member;
+
+    @OneToMany(mappedBy = "board", orphanRemoval = true)
+    private List<Like> likes;
+    private Integer likeCnt;
+
+    @OneToMany(mappedBy = "board", orphanRemoval = true)
+    private List<Comment> comments;
+    private Integer commentCnt;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private UploadImage uploadImage;
+
+    public void update(BoardDto dto) {
+        this.title = dto.getTitle();
+        this.body = dto.getBody();
+    }
+
+    public void likeChange(Integer likeCnt) {
+        this.likeCnt = likeCnt;
+    }
+
+    public void commentChange(Integer commentCnt) {
+        this.commentCnt = commentCnt;
+    }
+
+    public void setUploadImage(UploadImage uploadImage) {
+        this.uploadImage = uploadImage;
+    }
+
 }

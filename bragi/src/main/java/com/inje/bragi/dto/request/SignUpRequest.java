@@ -1,6 +1,5 @@
 package com.inje.bragi.dto.request;
 
-import com.inje.bragi.entity.Image;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record SignUpRequest (
@@ -14,8 +13,7 @@ public record SignUpRequest (
         String name,
 
         @Schema(description = "회원 나이", example = "24")
-        Integer age,
+        Integer age
 
-        Image image
 
 ){}

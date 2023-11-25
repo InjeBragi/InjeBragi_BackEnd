@@ -1,3 +1,4 @@
+/*
 package com.inje.bragi.auth;
 
 import com.inje.bragi.entity.AuthMember;
@@ -6,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserProfile {
+public class MemberProfile {
     private Long id;
     private String name;
     private String email;
@@ -26,3 +27,4 @@ public class UserProfile {
                 .build();
     }
 }
+*/

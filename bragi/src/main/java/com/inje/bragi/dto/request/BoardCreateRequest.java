@@ -1,20 +1,22 @@
 package com.inje.bragi.dto.request;
 
 import com.inje.bragi.entity.Board;
-import com.inje.bragi.entity.Comment;
 import com.inje.bragi.entity.Member;
 import lombok.Data;
 
 @Data
-public class CommentCreateRequest {
+public class BoardCreateRequest {
 
+    private String title;
     private String body;
 
-    public Comment toEntity(Board board, Member member) {
-        return Comment.builder()
+    public Board toEntity(Member member) {
+        return Board.builder()
                 .member(member)
-                .board(board)
+                .title(title)
                 .body(body)
+                .likeCnt(0)
+                .commentCnt(0)
                 .build();
     }
 }

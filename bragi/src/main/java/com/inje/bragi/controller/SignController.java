@@ -3,6 +3,7 @@ package com.inje.bragi.controller;
 import com.inje.bragi.dto.ApiResponse;
 import com.inje.bragi.dto.request.SignInRequest;
 import com.inje.bragi.dto.request.SignUpRequest;
+import com.inje.bragi.repository.AuthMemberRepository;
 import com.inje.bragi.service.SignService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/member")
 public class SignController {
+    private final AuthMemberRepository authMemberRepository;
     private final SignService signService;
 
 
@@ -34,4 +36,5 @@ public class SignController {
         return ApiResponse.success(signService.signIn(request));
 
     }
+
 }

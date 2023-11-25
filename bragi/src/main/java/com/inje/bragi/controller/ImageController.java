@@ -6,19 +6,25 @@ import com.inje.bragi.service.ImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigInteger;
 
 @Tag(name = "프로필 이미지")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/image")
+@Slf4j
 public class ImageController {
 
     private final ImageService imageService;
@@ -27,11 +33,12 @@ public class ImageController {
     private String uploadPath;
 
     @Operation(summary = "프로필 이미지 변경")
-    @PostMapping("/upload")
-    public ApiResponse upload(@ModelAttribute ImageUploadRequest imageUploadRequest, Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return ApiResponse.success(imageService.upload(imageUploadRequest, userDetails.getUsername()));
+    @PostMapping(name = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public ApiResponse upload(@ModelAttribute ImageUploadRequest imageUploadRequest, Authentication authentication, @AuthenticationPrincipal User user) {
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+        return ApiResponse.success(imageService.upload(imageUploadRequest, new BigInteger(user.getUsername())));
     }
+
 
     @GetMapping("/images/profileImage/{imageName:.+}")
     public ResponseEntity<Resource> serveImage(@PathVariable String imageName) {

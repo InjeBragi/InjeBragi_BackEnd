@@ -1,7 +1,9 @@
+/*
+
 package com.inje.bragi.service;
 
+import com.inje.bragi.auth.MemberProfile;
 import com.inje.bragi.auth.OAuthAttributes;
-import com.inje.bragi.auth.UserProfile;
 import com.inje.bragi.entity.AuthMember;
 import com.inje.bragi.repository.AuthMemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +20,11 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+*/
 /*
     OAuth2 로그인 성공시 DB에 저장하는 작업
- */
+ *//*
+
 @Service
 @RequiredArgsConstructor
 public class OAuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
@@ -40,35 +44,39 @@ public class OAuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2
                 .getUserNameAttributeName(); // OAuth 로그인 시 키(pk)가 되는 값
         Map<String, Object> attributes = oAuth2User.getAttributes(); // OAuth 서비스의 유저 정보들
 
-        UserProfile userProfile = OAuthAttributes.extract(registrationId, attributes); // registrationId에 따라 유저 정보를 통해 공통된 UserProfile 객체로 만들어 줌
-        userProfile.setProvider(registrationId);
-        AuthMember authMember = saveOrUpdate(userProfile);
+        MemberProfile memberProfile = OAuthAttributes.extract(registrationId, attributes); // registrationId에 따라 유저 정보를 통해 공통된 UserProfile 객체로 만들어 줌
+        memberProfile.setProvider(registrationId);
+        AuthMember member = saveOrUpdate(memberProfile);
 
-        Map<String, Object> customAttribute = customAttribute(attributes, userNameAttributeName, userProfile, registrationId);
+        Map<String, Object> customAttribute = customAttribute(attributes, userNameAttributeName, memberProfile, registrationId);
 
         return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority(authMember.getTypeValue())),
+                Collections.singleton(new SimpleGrantedAuthority("USER")),
                 customAttribute,
                 userNameAttributeName);
+
     }
 
-    private Map customAttribute(Map attributes, String userNameAttributeName, UserProfile userProfile, String registrationId) {
+    private Map customAttribute(Map attributes, String userNameAttributeName, MemberProfile memberProfile, String registrationId) {
         Map<String, Object> customAttribute = new LinkedHashMap<>();
         customAttribute.put(userNameAttributeName, attributes.get(userNameAttributeName));
         customAttribute.put("provider", registrationId);
-        customAttribute.put("name", userProfile.getName());
-        customAttribute.put("email", userProfile.getEmail());
-        customAttribute.put("picture", userProfile.getProfileImageUrl());
+        customAttribute.put("name", memberProfile.getName());
+        customAttribute.put("email", memberProfile.getEmail());
+        customAttribute.put("picture", memberProfile.getProfileImageUrl());
         return customAttribute;
+
     }
 
-    private AuthMember saveOrUpdate(UserProfile userProfile) {
+    private AuthMember saveOrUpdate(MemberProfile memberProfile) {
 
-        AuthMember authMember = authMemberRepository.findByEmailAndProvider(userProfile.getEmail(), userProfile.getProvider())
-                .map(m -> m.update(userProfile.getName(), userProfile.getEmail(), userProfile.getProfileImageUrl())) // OAuth 서비스 사이트에서 유저 정보 변경이 있을 수 있기 때문에 우리 DB에도 update
-                .orElse(AuthMember.of(userProfile.getName(), userProfile.getEmail(), userProfile.getProvider(),
-                        userProfile.getProviderId(), userProfile.getProfileImageUrl(), userProfile.getNickname()));
+        AuthMember member = authMemberRepository.findByEmailAndProvider(memberProfile.getEmail(), memberProfile.getProvider())
+                .map(m -> m.update(memberProfile.getName(), memberProfile.getEmail(), memberProfile.getProfileImageUrl())) // OAuth 서비스 사이트에서 유저 정보 변경이 있을 수 있기 때문에 우리 DB에도 update
+                .orElse(memberProfile.toMember());
 
-        return authMemberRepository.save(authMember);
+        return authMemberRepository.save(member);
     }
+
+
 }
+*/

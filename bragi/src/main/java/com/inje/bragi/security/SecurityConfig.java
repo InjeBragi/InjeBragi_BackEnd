@@ -1,6 +1,5 @@
 package com.inje.bragi.security;
 
-import com.inje.bragi.service.OAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,8 +17,8 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @Configuration
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final  OAuthService oAuthService;
-    private final String[] allowedUrls = {"/sign-up", "/sign-in", "/search", "/oauth/loginInfo", "/member/upload"};
+    //private final OAuthService oAuthService;
+    private final String[] allowedUrls = {"/sign-up", "/sign-in", "/search", "/oauth/loginInfo", "/member/upload", "/api/**", "image/upload", "/error"};
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -40,12 +39,12 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )	// 세션을 사용하지 않으므로 STATELESS 설정
-                .addFilterBefore(jwtAuthenticationFilter, BasicAuthenticationFilter.class)// 추가
-                .oauth2Login()
-                .defaultSuccessUrl("/oauth/loginInfo", true)// OAuth2 로그인 설정 시작
-                .userInfoEndpoint() // UserInfo 엔드포인트 설정
-                .userService(oAuthService) // 커스텀 OAuth2 사용자 서비스 설정
-                .and();
+                .addFilterBefore(jwtAuthenticationFilter, BasicAuthenticationFilter.class);// 추가
+                //.oauth2Login()
+                //.defaultSuccessUrl("/oauth/loginInfo", true)// OAuth2 로그인 설정 시작
+                //.userInfoEndpoint() // UserInfo 엔드포인트 설정
+                //.userService(oAuthService) // 커스텀 OAuth2 사용자 서비스 설정
+                //.and();
         return http.build();
     }
 }

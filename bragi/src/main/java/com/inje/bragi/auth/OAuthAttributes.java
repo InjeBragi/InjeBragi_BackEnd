@@ -1,26 +1,26 @@
+/*
 package com.inje.bragi.auth;
-
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
 
 public enum OAuthAttributes {
     GOOGLE("google", (attributes) -> {
-        UserProfile userProfile = new UserProfile();
-        userProfile.setName((String) attributes.get("name"));
-        userProfile.setEmail((String) attributes.get("email"));
-        userProfile.setProfileImageUrl((String) attributes.get("picture"));
-        return userProfile;
+        MemberProfile memberProfile = new MemberProfile();
+        memberProfile.setName((String) attributes.get("name"));
+        memberProfile.setEmail((String) attributes.get("email"));
+        memberProfile.setProfileImageUrl((String) attributes.get("picture"));
+        return memberProfile;
     }),
 
     NAVER("naver", (attributes) -> {
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
         System.out.println(response);
-        UserProfile userProfile = new UserProfile();
-        userProfile.setName((String) response.get("name"));
-        userProfile.setEmail(((String) response.get("email")));
-        userProfile.setProfileImageUrl((String) attributes.get("picture"));
-        return userProfile;
+        MemberProfile memberProfile = new MemberProfile();
+        memberProfile.setName((String) response.get("name"));
+        memberProfile.setEmail(((String) response.get("email")));
+        memberProfile.setProfileImageUrl((String) attributes.get("picture"));
+        return memberProfile;
     }),
 
     KAKAO("kakao", (attributes) -> {
@@ -29,26 +29,27 @@ public enum OAuthAttributes {
         // kakao_account안에 또 profile이라는 JSON객체가 있다. (nickname, profile_image)
         Map<String, Object> kakaoProfile = (Map<String, Object>)kakaoAccount.get("profile");
 
-        UserProfile userProfile = new UserProfile();
-        userProfile.setName((String) kakaoProfile.get("nickname"));
-        userProfile.setEmail((String) kakaoAccount.get("email"));
-        userProfile.setProfileImageUrl((String) attributes.get("picture"));
-        return userProfile;
+        MemberProfile memberProfile = new MemberProfile();
+        memberProfile.setName((String) kakaoProfile.get("nickname"));
+        memberProfile.setEmail((String) kakaoAccount.get("email"));
+        memberProfile.setProfileImageUrl((String) attributes.get("picture"));
+
+        return memberProfile;
     });
 
     private final String registrationId;
-    private final Function<Map<String, Object>, UserProfile> of;
+    private final Function<Map<String, Object>, MemberProfile> of;
 
-    OAuthAttributes(String registrationId, Function<Map<String, Object>, UserProfile> of) {
+    OAuthAttributes(String registrationId, Function<Map<String, Object>, MemberProfile> of) {
         this.registrationId = registrationId;
         this.of = of;
     }
 
-    public static UserProfile extract(String registrationId, Map<String, Object> attributes) {
+    public static MemberProfile extract(String registrationId, Map<String, Object> attributes) {
         return Arrays.stream(values())
                 .filter(provider -> registrationId.equals(provider.registrationId))
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new)
                 .of.apply(attributes);
     }
-}
+}*/
