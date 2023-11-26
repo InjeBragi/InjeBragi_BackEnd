@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -16,7 +17,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @Tag(name = "프로필 이미지")
 @RestController
@@ -27,7 +31,7 @@ public class ImageController {
 
     private final ImageService imageService;
 
-    @Value("${classpath:profileImages/}")
+    @Value("${file.profileImagePath}")
     private String uploadPath;
 
     @Operation(summary = "프로필 이미지 변경")
@@ -36,11 +40,17 @@ public class ImageController {
         return ApiResponse.success(imageService.upload(imageUploadRequest, new BigInteger(user.getUsername())));
     }
 
+    @GetMapping("/decode")
+    public void decodeBase64ToImage(@RequestParam String base64String)throws IOException{
+        byte[] decodedBytes = Base64.decodeBase64(base64String);
+        Files.write(Paths.get(uploadPath), decodedBytes);
+    }
+
 
     @GetMapping("/images/profileImage/{imageName:.+}")
     public ResponseEntity<Resource> serveImage(@PathVariable String imageName) {
         try {
-            Resource imageResource = new ClassPathResource("profileImages/" + imageName);
+            Resource imageResource = new ClassPathResource(uploadPath + imageName);
 
             if (imageResource.exists() && imageResource.isReadable()) {
                 return ResponseEntity.ok()

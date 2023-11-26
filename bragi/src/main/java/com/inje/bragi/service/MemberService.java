@@ -21,6 +21,7 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public MemberInfoResponse getMemberInfo(BigInteger id) {
+
         return memberRepository.findById(id)
                 .map(MemberInfoResponse::from)
                 .orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));

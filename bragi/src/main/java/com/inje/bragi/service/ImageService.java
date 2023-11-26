@@ -44,14 +44,12 @@ public class ImageService {
             file.transferTo(destinationFile);
 
             image = imageRepository.findByMember(member);
-
-            image = imageRepository.findByMember(member);
             if (image != null) {
-                image.updateUrl("/profileImages/" + imageFileName);
+                image.updateUrl(uploadFolder + imageFileName);
             } else {
                 image = Image.builder()
                         .member(member)
-                        .url("/profileImages/" + imageFileName)
+                        .url(uploadFolder + imageFileName)
                         .build();
             }
             imageRepository.save(image);

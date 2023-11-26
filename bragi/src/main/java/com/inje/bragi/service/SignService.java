@@ -27,7 +27,7 @@ public class SignService {
     public SignUpResponse registerMember(SignUpRequest request) {
         Member member = memberRepository.save(Member.from(request, encoder));
         Image image = Image.builder()
-                .url("/profileImage/anonymous.png")
+                .url("/profileImages/anonymous.png")
                 .member(member)
                 .build();
 
