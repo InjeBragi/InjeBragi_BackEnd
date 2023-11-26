@@ -1,7 +1,7 @@
 package com.inje.bragi.dto.response;
 
-import com.inje.bragi.entity.Member;
 import com.inje.bragi.common.MemberType;
+import com.inje.bragi.entity.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.math.BigInteger;
@@ -16,7 +16,9 @@ public record MemberInfoResponse(
         @Schema(description = "회원 나이", example = "24")
         Integer age,
         @Schema(description = "회원 타입", example = "USER")
-        MemberType type
+        MemberType type,
+        @Schema(description = "이미지 경로")
+        String url
 ) {
     public static MemberInfoResponse from(Member member) {
         return new MemberInfoResponse(
@@ -24,7 +26,8 @@ public record MemberInfoResponse(
                 member.getAccount(),
                 member.getName(),
                 member.getAge(),
-                member.getType()
+                member.getType(),
+                member.getImage().getUrl()
         );
     }
 }

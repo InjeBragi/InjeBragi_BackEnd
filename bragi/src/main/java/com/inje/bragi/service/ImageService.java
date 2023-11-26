@@ -62,8 +62,8 @@ public class ImageService {
     }
 
 
-    public ImageUploadResponse findImage(String account) {
-        Member member = memberRepository.findByAccount(account).orElseThrow(() -> new UsernameNotFoundException("계정이 존재하지 않습니다."));
+    public ImageUploadResponse findImage(BigInteger account) {
+        Member member = memberRepository.findById(account).orElseThrow(() -> new UsernameNotFoundException("계정이 존재하지 않습니다."));
         Image image = imageRepository.findByMember(member);
 
         String defaultImageUrl = "/profileImages/anonymous.png";

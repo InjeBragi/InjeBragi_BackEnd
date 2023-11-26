@@ -38,10 +38,6 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberType type;
 
-    //private String profileImgPath;
-
-    //private String profileImgName;
-
     @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
     private Image image;
 
