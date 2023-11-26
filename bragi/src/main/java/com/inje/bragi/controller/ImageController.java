@@ -12,9 +12,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,8 +32,7 @@ public class ImageController {
 
     @Operation(summary = "프로필 이미지 변경")
     @PostMapping(name = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ApiResponse upload(@ModelAttribute ImageUploadRequest imageUploadRequest, Authentication authentication, @AuthenticationPrincipal User user) {
-        authentication = SecurityContextHolder.getContext().getAuthentication();
+    public ApiResponse upload(@ModelAttribute ImageUploadRequest imageUploadRequest, @AuthenticationPrincipal User user) {
         return ApiResponse.success(imageService.upload(imageUploadRequest, new BigInteger(user.getUsername())));
     }
 
