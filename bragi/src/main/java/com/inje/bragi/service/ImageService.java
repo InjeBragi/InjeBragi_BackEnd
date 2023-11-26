@@ -32,6 +32,7 @@ public class ImageService {
 
     public ImageUploadResponse upload(ImageUploadRequest imageUploadRequest, BigInteger account) {
 
+
         Member member = memberRepository.findById(account).orElseThrow(() -> new UsernameNotFoundException("계정이 존재하지 않습니다."));
         MultipartFile file = imageUploadRequest.getFile();
         Image image;

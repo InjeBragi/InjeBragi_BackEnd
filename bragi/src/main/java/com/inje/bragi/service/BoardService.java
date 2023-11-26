@@ -13,9 +13,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.math.BigInteger;
 
 
 @Service
@@ -45,8 +47,8 @@ public class BoardService {
 
 
     @Transactional
-    public Long writeBoard(BoardCreateRequest req, String account, Member member) throws IOException {
-        Member loginUser = memberRepository.findByAccount(account).get();
+    public Long writeBoard(BoardCreateRequest req, BigInteger account) throws IOException {
+        Member loginUser = memberRepository.findById(account).orElseThrow(() -> new UsernameNotFoundException("계정이 존재하지 않습니다."));
 
         Board savedBoard = boardRepository.save(req.toEntity(loginUser));
 
