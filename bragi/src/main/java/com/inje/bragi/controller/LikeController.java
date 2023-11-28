@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigInteger;
 
-@Tag(name = "좋아요")
+@Tag(name = "좋아요 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/likes")

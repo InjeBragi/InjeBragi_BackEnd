@@ -74,16 +74,13 @@ public class CommentService {
             throw new RestApiException(ErrorType.NOT_FOUND_WRITING);
         }
 
-        // 댓글의 작성자와 삭제하려는 사용자의 정보가 일치하는지 확인 (삭제하려는 사용자가 관리자라면 댓글 삭제 가능)
         Optional<Comment> found = commentRepository.findByIdAndMember(id, member);
         if (found.isEmpty() && member.getType() == MemberType.USER.USER) {
             throw new RestApiException(ErrorType.NOT_WRITER);
         }
 
-        // 관리자이거나, 댓글의 작성자와 삭제하려는 사용자의 정보가 일치한다면, 댓글 삭제
         commentRepository.deleteById(id);
 
-        // ResponseEntity 에 상태코드, 메시지 들어있는 DTO 를 담아서 반환
         return SuccessResponse.of(HttpStatus.OK, "댓글 삭제 성공");
 
     }
