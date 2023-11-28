@@ -40,13 +40,13 @@ public class BoardController {
     }
 
     @Operation(summary = "피드 수정")
-    @PutMapping("/api/post/{id}")
+    @PutMapping("/api/post/{boardId}")
     public ApiResponse updatePost(@PathVariable Long boardId, @RequestBody BoardCreateRequest requestsDto, @AuthenticationPrincipal User user) {
         return ApiResponse.success(boardService.updatePost(boardId, requestsDto, new BigInteger(user.getUsername())));
     }
 
     @Operation(summary = "피드 삭제")
-    @DeleteMapping("/api/post/{id}")
+    @DeleteMapping("/api/post/{boardId}")
     public ApiResponse deletePost(@PathVariable Long boardId, @AuthenticationPrincipal User user) {
         return ApiResponse.success(boardService.deletePost(boardId, new BigInteger(user.getUsername())));
     }

@@ -23,7 +23,7 @@ public class LikeController {
     private final LikeService likesService;
 
     @Operation(summary = "피드 좋아요")
-    @PutMapping("/post/{id}")
+    @PutMapping("/post/{boardId}")
     public ApiResponse likePost(@PathVariable Long boardId, @AuthenticationPrincipal User user) {
         return ApiResponse.success(likesService.likePost(boardId, new BigInteger(user.getUsername())));
     }

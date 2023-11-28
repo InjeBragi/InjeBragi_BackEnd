@@ -21,19 +21,19 @@ public class CommentController {
     private final CommentService commentService;
 
     @Operation(summary = "댓글 작성")
-    @PostMapping("/comment/{id}")
+    @PostMapping("/comment/{boardId}")
     public ApiResponse createComment(@PathVariable Long boardId, @RequestBody CommentRequest requestDto, @AuthenticationPrincipal User user) {
         return ApiResponse.success(commentService.createComment(boardId, requestDto, new BigInteger(user.getUsername())));
     }
 
     @Operation(summary = "댓글 수정")
-    @PutMapping("/comment/{id}")
+    @PutMapping("/comment/{commentId}")
     public ApiResponse updateComment(@PathVariable Long commentId, @RequestBody CommentRequest requestDto, @AuthenticationPrincipal User user) {
         return ApiResponse.success(commentService.updateComment(commentId, requestDto, new BigInteger(user.getUsername())));
     }
 
     @Operation(summary = "댓글 삭제")
-    @DeleteMapping("/comment/{id}")
+    @DeleteMapping("/comment/{commentId}")
     public ApiResponse deleteComment(@PathVariable Long commentId, @AuthenticationPrincipal User user) {
         return ApiResponse.success(commentService.deleteComment(commentId, new BigInteger(user.getUsername())));
     }
