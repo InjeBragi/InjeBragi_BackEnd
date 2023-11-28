@@ -28,9 +28,11 @@ public class CommentService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
 
+    String notExist = "계정이 존재하지 않습니다.";
+
     @Transactional
     public CommentResponse createComment(Long id, CommentRequest requestDto, BigInteger account) {
-        Member member = memberRepository.findById(account).orElseThrow(() -> new UsernameNotFoundException("계정이 존재하지 않습니다."));
+        Member member = memberRepository.findById(account).orElseThrow(() -> new UsernameNotFoundException(notExist));
 
         Optional<Board> board = boardRepository.findById(id);
         if (board.isEmpty()) {
@@ -46,7 +48,7 @@ public class CommentService {
 
     @Transactional
     public CommentResponse updateComment(Long id, CommentRequest requestDto, BigInteger account) {
-        Member member = memberRepository.findById(account).orElseThrow(() -> new UsernameNotFoundException("계정이 존재하지 않습니다."));
+        Member member = memberRepository.findById(account).orElseThrow(() -> new UsernameNotFoundException(notExist));
 
         Optional<Comment> comment = commentRepository.findById(id);
         if (comment.isEmpty()) {
@@ -67,7 +69,7 @@ public class CommentService {
 
     @Transactional
     public SuccessResponse deleteComment(Long id, BigInteger account) {
-        Member member = memberRepository.findById(account).orElseThrow(() -> new UsernameNotFoundException("계정이 존재하지 않습니다."));
+        Member member = memberRepository.findById(account).orElseThrow(() -> new UsernameNotFoundException(notExist));
 
         Optional<Comment> comment = commentRepository.findById(id);
         if (comment.isEmpty()) {
@@ -75,7 +77,7 @@ public class CommentService {
         }
 
         Optional<Comment> found = commentRepository.findByIdAndMember(id, member);
-        if (found.isEmpty() && member.getType() == MemberType.USER.USER) {
+        if (found.isEmpty() && member.getType() == MemberType.USER) {
             throw new RestApiException(ErrorType.NOT_WRITER);
         }
 

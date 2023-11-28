@@ -24,7 +24,7 @@ public class LikeController {
 
     @Operation(summary = "피드 좋아요")
     @PutMapping("/post/{id}")
-    public ApiResponse likePost(@PathVariable Long id, @AuthenticationPrincipal User user) {
-        return ApiResponse.success(likesService.likePost(id, new BigInteger(user.getUsername())));
+    public ApiResponse likePost(@PathVariable Long boardId, @AuthenticationPrincipal User user) {
+        return ApiResponse.success(likesService.likePost(boardId, new BigInteger(user.getUsername())));
     }
 }

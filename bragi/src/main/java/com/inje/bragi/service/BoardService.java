@@ -10,8 +10,6 @@ import com.inje.bragi.entity.Member;
 import com.inje.bragi.entity.enumSet.ErrorType;
 import com.inje.bragi.handler.RestApiException;
 import com.inje.bragi.repository.BoardRepository;
-import com.inje.bragi.repository.CommentRepository;
-import com.inje.bragi.repository.LikeRepository;
 import com.inje.bragi.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,15 +30,16 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
-    private final LikeRepository likeRepository;
-    private final CommentRepository commentRepository;
+    String notExist = "계정이 존재하지 않습니다.";
 
-    @Value("${classpath:profileImages/}")
+    @Value("${file.profileImagePath}")
     private String uploadFolder;
 
     @Transactional
     public Long writeBoard(BoardCreateRequest req, BigInteger account) {
-        Member loginUser = memberRepository.findById(account).orElseThrow(() -> new UsernameNotFoundException("계정이 존재하지 않습니다."));
+
+        Member loginUser = memberRepository.findById(account).orElseThrow(() -> new UsernameNotFoundException(notExist));
+
 
         Board savedBoard = boardRepository.save(Board.of(req, loginUser));
 
@@ -71,7 +70,7 @@ public class BoardService {
 
     @Transactional
     public BoardResponse updatePost(Long id, BoardCreateRequest requestsDto, BigInteger account) {
-        Member loginUser = memberRepository.findById(account).orElseThrow(() -> new UsernameNotFoundException("계정이 존재하지 않습니다."));
+        Member loginUser = memberRepository.findById(account).orElseThrow(() -> new UsernameNotFoundException(notExist));
 
         Optional<Board> board = boardRepository.findById(id);
         if (board.isEmpty()) {
@@ -91,7 +90,7 @@ public class BoardService {
 
     @Transactional
     public BoardResponse deletePost(Long id, BigInteger account) {
-        Member loginUser = memberRepository.findById(account).orElseThrow(() -> new UsernameNotFoundException("계정이 존재하지 않습니다."));
+        Member loginUser = memberRepository.findById(account).orElseThrow(() -> new UsernameNotFoundException(notExist));
 
         Optional<Board> found = boardRepository.findById(id);
         if (found.isEmpty()) {
