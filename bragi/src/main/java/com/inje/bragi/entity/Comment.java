@@ -1,6 +1,6 @@
 package com.inje.bragi.entity;
 
-import com.inje.bragi.dto.request.CommentCreateRequest;
+import com.inje.bragi.dto.request.CommentRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,24 +30,24 @@ public class Comment extends BaseEntity {
     private Board board;
 
     @Builder
-    private Comment(CommentCreateRequest requestDto, Board board, Member member) {
+    private Comment(CommentRequest requestDto, Board board, Member member) {
         this.body = requestDto.getBody();
         this.board = board;
         this.member = member;
     }
 
-    public void update(CommentCreateRequest requestDto, Member member) {
+    public void update(CommentRequest requestDto, Member member) {
         this.body = requestDto.getBody();
         this.member = member;
     }
 
-    /*public static Comment of(CommentCreateRequest requestDto, Board board, Member member) {
+    public static Comment of(CommentRequest requestDto, Board board, Member member) {
         Comment comment = Comment.builder()
-                .requestDto(requestDto)
+                .body(requestDto.getBody())
                 .board(board)
                 .member(member)
                 .build();
         board.getComments().add(comment);
         return comment;
-    }*/
+    }
 }

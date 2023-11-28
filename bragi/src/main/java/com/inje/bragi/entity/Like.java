@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Getter
 @Table(name = "\"like\"")
-public class Likes {
+public class Like {
 
     @Id
     @SequenceGenerator(name = "like_id", sequenceName = "idx_like", allocationSize = 1)
@@ -28,9 +28,33 @@ public class Likes {
     @JoinColumn(name = "board_id")
     private Board board;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "comment_id")
-    private Board comment;
+    private Comment comment;
+
+    @Builder
+    private Like(Board board, Comment comment, Member member) {
+        this.board = board;
+        this.comment = comment;
+        this.member = member;
+    }
+
+    public static Like of(Board board, Member member) {
+        Like likes = Like.builder()
+                .board(board)
+                .member(member)
+                .build();
+        board.getLikes().add(likes);
+        return likes;
+    }
+
+    public static Like of(Comment comment, Member member) {
+        Like likes = Like.builder()
+                .comment(comment)
+                .member(member)
+                .build();
+        return likes;
+    }
 
 }
 

@@ -47,7 +47,7 @@ public class Member {
     private List<Board> boards;
 
     @OneToMany(mappedBy = "member", orphanRemoval = true)
-    private List<Likes> likes;
+    private List<Like> likes;
 
     @OneToMany(mappedBy = "member", orphanRemoval = true)
     private List<Comment> comments;
