@@ -10,6 +10,8 @@ public class CommentCreateRequest {
 
     private String body;
 
+    Long parentCommentId;
+
     public Comment toEntity(Board board, Member member) {
         return Comment.builder()
                 .member(member)

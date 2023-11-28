@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Getter
 @Table(name = "\"like\"")
-public class Like {
+public class Likes {
 
     @Id
     @SequenceGenerator(name = "like_id", sequenceName = "idx_like", allocationSize = 1)
@@ -21,10 +21,16 @@ public class Like {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id")
     private Board board;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "comment_id")
+    private Board comment;
 
 }
 

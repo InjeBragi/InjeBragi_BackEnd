@@ -15,8 +15,6 @@ public class BoardCreateRequest {
                 .member(member)
                 .title(title)
                 .body(body)
-                .likeCnt(0)
-                .commentCnt(0)
                 .build();
     }
 }

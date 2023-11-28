@@ -33,7 +33,6 @@ public class BoardDto {
                 .createdAt(board.getCreatedAt())
                 .lastModifiedAt(board.getLastModifiedAt())
                 .likeCnt(board.getLikes().size())
-                .uploadImage(board.getUploadImage())
                 .build();
     }
 }

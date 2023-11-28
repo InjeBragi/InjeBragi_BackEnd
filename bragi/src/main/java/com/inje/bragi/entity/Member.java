@@ -44,13 +44,13 @@ public class Member {
     private Integer receivedLikeCnt;
 
     @OneToMany(mappedBy = "member", orphanRemoval = true)
-    private List<Board> boards;     // 작성글
+    private List<Board> boards;
 
     @OneToMany(mappedBy = "member", orphanRemoval = true)
-    private List<Like> likes;       // 유저가 누른 좋아요
+    private List<Likes> likes;
 
     @OneToMany(mappedBy = "member", orphanRemoval = true)
-    private List<Comment> comments; // 댓글
+    private List<Comment> comments;
 
     public static Member from(SignUpRequest request, PasswordEncoder encoder) {
         return Member.builder()
