@@ -14,6 +14,4 @@ public record SignUpRequest (
 
         @Schema(description = "회원 나이", example = "24")
         Integer age
-
-
 ){}

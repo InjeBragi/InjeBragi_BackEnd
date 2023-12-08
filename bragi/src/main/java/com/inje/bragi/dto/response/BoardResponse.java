@@ -18,6 +18,14 @@ public class BoardResponse {
     private Integer likeCount;
     private List<CommentResponse> commentList;
 
+    private String musicArtist;
+
+    private String musicTitle;
+
+    private String musicUrl;
+
+    private String image;
+
     @Builder
     private BoardResponse(Board entity, List<CommentResponse> list) {
         this.id = entity.getId();

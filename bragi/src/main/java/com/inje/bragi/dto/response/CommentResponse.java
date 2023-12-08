@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 public class CommentResponse {
@@ -15,8 +14,6 @@ public class CommentResponse {
     private String memberName;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private Integer likeCount;
-    private List<CommentResponse> childCommentList;
 
     @Builder
     private CommentResponse(Comment entity) {

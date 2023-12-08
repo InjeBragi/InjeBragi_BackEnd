@@ -53,15 +53,12 @@ public class BoardService {
         List<BoardResponse> responseDtoList = new ArrayList<>();
 
         for (Board board : boardList) {
-            // 댓글리스트 작성일자 기준 내림차순 정렬
             board.getComments()
                     .sort(Comparator.comparing(Comment::getLastModifiedAt)
                             .reversed());
 
-            // 대댓글은 제외 부분 작성
             List<CommentResponse> commentList = new ArrayList<>();
 
-            // List<BoardResponseDto> 로 만들기 위해 board 를 BoardResponseDto 로 만들고, list 에 dto 를 하나씩 넣는다.
             responseDtoList.add(BoardResponse.from(board, commentList));
         }
 

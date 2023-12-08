@@ -7,7 +7,6 @@ import com.inje.bragi.entity.Member;
 import com.inje.bragi.entity.enumSet.ErrorType;
 import com.inje.bragi.handler.RestApiException;
 import com.inje.bragi.repository.BoardRepository;
-import com.inje.bragi.repository.CommentRepository;
 import com.inje.bragi.repository.LikeRepository;
 import com.inje.bragi.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,6 @@ public class LikeService {
     private final MemberRepository memberRepository;
     private final LikeRepository likesRepository;
     private final BoardRepository boardRepository;
-    private final CommentRepository commentRepository;
 
 
     public BoardResponse likePost(Long id, BigInteger account) {

@@ -1,6 +1,5 @@
 package com.inje.bragi.entity;
 
-import com.inje.bragi.dto.BoardDto;
 import com.inje.bragi.dto.request.BoardCreateRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -35,23 +34,8 @@ public class Board extends BaseEntity{
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private List<Like> likes = new ArrayList<>();
 
-
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
-
-
-
-    public void update(BoardDto dto) {
-        this.title = dto.getTitle();
-        this.body = dto.getBody();
-    }
-
-    @Builder
-    private Board(BoardCreateRequest requestsDto, Member member) {
-        this.title = requestsDto.getTitle();
-        this.body = requestsDto.getBody();
-        this.member = member;
-    }
 
     public void update(BoardCreateRequest requestsDto, Member member) {
         this.title = requestsDto.getTitle();
