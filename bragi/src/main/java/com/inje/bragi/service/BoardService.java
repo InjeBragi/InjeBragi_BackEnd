@@ -53,11 +53,15 @@ public class BoardService {
         List<BoardResponse> responseDtoList = new ArrayList<>();
 
         for (Board board : boardList) {
+            List<CommentResponse> commentList = new ArrayList<>();
+
             board.getComments()
                     .sort(Comparator.comparing(Comment::getLastModifiedAt)
                             .reversed());
 
-            List<CommentResponse> commentList = new ArrayList<>();
+            for (Comment comment : board.getComments()) {
+                commentList.add(CommentResponse.from(comment));
+            }
 
             responseDtoList.add(BoardResponse.from(board, commentList));
         }
