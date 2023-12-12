@@ -4,5 +4,8 @@ import lombok.Getter;
 
 @Getter
 public class CommentRequest {
+
     String body;
+
+    private String memberProfileUrl;
 }
