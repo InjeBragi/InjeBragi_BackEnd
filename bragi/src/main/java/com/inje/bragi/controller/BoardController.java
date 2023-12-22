@@ -3,10 +3,7 @@ package com.inje.bragi.controller;
 
 import com.inje.bragi.dto.ApiResponse;
 import com.inje.bragi.dto.request.BoardCreateRequest;
-import com.inje.bragi.repository.MemberRepository;
 import com.inje.bragi.service.BoardService;
-import com.inje.bragi.service.CommentService;
-import com.inje.bragi.service.LikeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +21,6 @@ import java.math.BigInteger;
 public class BoardController {
 
     private final BoardService boardService;
-    private final LikeService likeService;
-    private final CommentService commentService;
-    private final MemberRepository memberRepository;
 
     @Operation(summary = "피드 작성")
     @PostMapping("/write")
