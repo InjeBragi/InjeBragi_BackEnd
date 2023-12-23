@@ -33,7 +33,6 @@ public class TrackService {
 
     private final TrackRepository trackRepository;
     private final MemberRepository memberRepository;
-
     private final Mp3Repository mp3Repository;
     String notExist = "계정이 존재하지 않습니다.";
 
@@ -55,7 +54,7 @@ public class TrackService {
         try {
             file.transferTo(destinationFile);
 
-            mp3 = mp3Repository.findByMember(loginUser);
+            mp3 = mp3Repository.findByTrack(trackRepository.findByMember(loginUser));
             if (mp3 != null) {
                 mp3.updateUrl(uploadFolder + imageFileName);
             } else {
@@ -65,7 +64,7 @@ public class TrackService {
             }
             mp3Repository.save(mp3);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException();
         }
         Mp3UploadResponse.from(mp3);
 

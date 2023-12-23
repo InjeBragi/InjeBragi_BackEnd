@@ -6,6 +6,7 @@ import com.inje.bragi.service.TrackService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class TrackController {
     private final TrackService trackService;
 
     @Operation(summary = "음원 업로드")
-    @PostMapping("/write")
+    @PostMapping(name = "/write", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ApiResponse boardWrite(@RequestBody TrackCreateRequest req, @AuthenticationPrincipal User user) throws IOException {
         return ApiResponse.success(trackService.writeTrack(req, new BigInteger(user.getUsername())));
     }

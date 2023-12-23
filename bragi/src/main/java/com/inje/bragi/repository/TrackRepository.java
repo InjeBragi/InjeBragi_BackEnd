@@ -13,4 +13,6 @@ public interface TrackRepository extends JpaRepository<Track, Long> {
     Optional<Track> findByIdAndMember(Long id, Member member);
 
     void deleteAllByMember(Member member);
+
+    Track findByMember(Member member);
 }
