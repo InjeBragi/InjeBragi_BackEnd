@@ -2,7 +2,6 @@ package com.inje.bragi.service;
 
 import com.inje.bragi.common.MemberType;
 import com.inje.bragi.dto.request.TrackCreateRequest;
-import com.inje.bragi.dto.response.Mp3UploadResponse;
 import com.inje.bragi.dto.response.TrackResponse;
 import com.inje.bragi.entity.Member;
 import com.inje.bragi.entity.Mp3;
@@ -22,10 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -40,55 +36,51 @@ public class TrackService {
     private String uploadFolder;
 
     @Transactional
-    public Long writeTrack(TrackCreateRequest req, BigInteger account) {
+    public BigInteger writeTrack(TrackCreateRequest req, BigInteger account) {
+        Member loginUser = memberRepository.findById(account)
+                .orElseThrow(() -> new UsernameNotFoundException(notExist));
 
-        Member loginUser = memberRepository.findById(account).orElseThrow(() -> new UsernameNotFoundException(notExist));
         MultipartFile file = req.getFile();
-
-        Mp3 mp3;
         UUID uuid = UUID.randomUUID();
         String imageFileName = uuid + "_" + file.getOriginalFilename();
-
         File destinationFile = new File(uploadFolder + imageFileName);
 
         try {
             file.transferTo(destinationFile);
 
-            mp3 = mp3Repository.findByTrack(trackRepository.findByMember(loginUser));
+            Mp3 mp3 = mp3Repository.findByTrackId(loginUser.getId());
+
             if (mp3 != null) {
                 mp3.updateUrl(uploadFolder + imageFileName);
             } else {
-                mp3 = Mp3.builder()
-                        .url(uploadFolder + imageFileName)
-                        .build();
+                mp3 = Mp3.builder().url(uploadFolder + imageFileName).build();
             }
+
+            Track track = trackRepository.save(Track.of(req, loginUser, mp3));
             mp3Repository.save(mp3);
+
+            return track.getId();
         } catch (IOException e) {
-            throw new RuntimeException();
+            throw new RuntimeException("파일 업로드 중 오류 발생", e);
         }
-        Mp3UploadResponse.from(mp3);
-
-        Track savedTrack = trackRepository.save(Track.of(req, loginUser));
-
-        return savedTrack.getId();
     }
+
 
     @Transactional(readOnly = true)
     public List<TrackResponse> getPosts() {
 
-        List<Track> TrackList = trackRepository.findAllByOrderByLastModifiedAtDesc();
+        List<Track> trackList = trackRepository.findAllByOrderByLastModifiedAtDesc();
         List<TrackResponse> responseDtoList = new ArrayList<>();
 
-        for (Track Track : TrackList) {
-
-            responseDtoList.add(TrackResponse.from(Track));
+        for (Track track : trackList) {
+            responseDtoList.add(TrackResponse.from(track));
         }
 
         return responseDtoList;
     }
 
     @Transactional
-    public TrackResponse updatePost(Long id, TrackCreateRequest requestsDto, BigInteger account) {
+    public TrackResponse updatePost(BigInteger id, TrackCreateRequest requestsDto, BigInteger account) {
         Member loginUser = memberRepository.findById(account).orElseThrow(() -> new UsernameNotFoundException(notExist));
 
         Optional<Track> Track = trackRepository.findById(id);
@@ -108,7 +100,7 @@ public class TrackService {
     }
 
     @Transactional
-    public TrackResponse deletePost(Long id, BigInteger account) {
+    public TrackResponse deletePost(BigInteger id, BigInteger account) {
         Member loginUser = memberRepository.findById(account).orElseThrow(() -> new UsernameNotFoundException(notExist));
 
         Optional<Track> found = trackRepository.findById(id);

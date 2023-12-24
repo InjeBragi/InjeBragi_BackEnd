@@ -2,22 +2,22 @@ package com.inje.bragi.entity;
 
 import com.inje.bragi.dto.request.TrackCreateRequest;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.math.BigInteger;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
+@Setter
 public class Track extends BaseEntity{
 
     @Id
     @SequenceGenerator(name = "track_id", sequenceName = "idx_track", allocationSize = 1)
     @GeneratedValue
-    private Long id;
+    private BigInteger id;
 
     @Column
     private String title;
@@ -28,7 +28,7 @@ public class Track extends BaseEntity{
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @OneToOne(mappedBy = "track", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "track", cascade = CascadeType.ALL)
     private Mp3 mp3;
 
 
@@ -38,11 +38,12 @@ public class Track extends BaseEntity{
         this.member = member;
     }
 
-    public static Track of(TrackCreateRequest requestsDto, Member member) {
+    public static Track of(TrackCreateRequest requestsDto, Member member, Mp3 mp3) {
         return Track.builder()
                 .title(requestsDto.getTitle())
                 .body(requestsDto.getBody())
                 .member(member)
+                .mp3(mp3)
                 .build();
     }
 

@@ -43,7 +43,7 @@ public class ImageController {
     }*/
 
 
-    @GetMapping("/images/profileImage/{imageName:.+}")
+    @GetMapping("/images/profileImages/{imageName:.+}")
     public ResponseEntity<Resource> serveImage(@PathVariable String imageName) {
         try {
             Resource imageResource = new ClassPathResource(uploadPath + imageName);

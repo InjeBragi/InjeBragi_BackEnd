@@ -24,7 +24,7 @@ public class TrackController {
 
     @Operation(summary = "음원 업로드")
     @PostMapping(name = "/write", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ApiResponse boardWrite(@RequestBody TrackCreateRequest req, @AuthenticationPrincipal User user) throws IOException {
+    public ApiResponse boardWrite(@ModelAttribute TrackCreateRequest req, @AuthenticationPrincipal User user) throws IOException {
         return ApiResponse.success(trackService.writeTrack(req, new BigInteger(user.getUsername())));
     }
 
@@ -36,13 +36,13 @@ public class TrackController {
 
     @Operation(summary = "음원 수정")
     @PutMapping("/api/post/{boardId}")
-    public ApiResponse updatePost(@PathVariable Long boardId, @RequestBody TrackCreateRequest requestsDto, @AuthenticationPrincipal User user) {
+    public ApiResponse updatePost(@PathVariable BigInteger boardId, @RequestBody TrackCreateRequest requestsDto, @AuthenticationPrincipal User user) {
         return ApiResponse.success(trackService.updatePost(boardId, requestsDto, new BigInteger(user.getUsername())));
     }
 
     @Operation(summary = "음원 삭제")
     @DeleteMapping("/api/post/{boardId}")
-    public ApiResponse deletePost(@PathVariable Long boardId, @AuthenticationPrincipal User user) {
+    public ApiResponse deletePost(@PathVariable BigInteger boardId, @AuthenticationPrincipal User user) {
         return ApiResponse.success(trackService.deletePost(boardId, new BigInteger(user.getUsername())));
     }
 }

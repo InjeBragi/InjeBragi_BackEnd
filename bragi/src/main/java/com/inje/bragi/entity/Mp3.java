@@ -15,7 +15,7 @@ import java.math.BigInteger;
 @AllArgsConstructor
 @Entity
 @Table(name = "mp3")
-public class Mp3 {
+public class Mp3 extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -30,5 +30,12 @@ public class Mp3 {
 
     public void updateUrl(String url) {
         this.url = url;
+    }
+
+    public static Mp3 of(Mp3 mp3, Track track) {
+        return Mp3.builder()
+                .url(mp3.getUrl())
+                .track(track)
+                .build();
     }
 }

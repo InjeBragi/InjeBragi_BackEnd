@@ -1,26 +1,33 @@
 package com.inje.bragi.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+import java.math.BigInteger;
+
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
 public class UploadImage {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private BigInteger id;
 
-    private String originalFilename;
-    private String savedFilename;
+    @Column(nullable = false)
+    private String url;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TRACK_ID")
+    private Track track;
+
+    public void updateUrl(String url) {
+        this.url = url;
+    }
 
 }

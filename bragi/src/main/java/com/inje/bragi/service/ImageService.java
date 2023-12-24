@@ -46,11 +46,11 @@ public class ImageService {
 
             image = imageRepository.findByMember(member);
             if (image != null) {
-                image.updateUrl(uploadFolder + imageFileName);
+                image.updateUrl(imageFileName);
             } else {
                 image = Image.builder()
                         .member(member)
-                        .url(uploadFolder + imageFileName)
+                        .url(imageFileName)
                         .build();
             }
             imageRepository.save(image);
