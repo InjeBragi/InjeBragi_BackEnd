@@ -10,8 +10,11 @@ import java.io.IOException;
 
 public class SpotifyConfig {
 
-    private static final String CLIENT_ID = "c891f91da33b4f0a92c46e9e759d2ce9";
-    private static final String CLIENT_SECRET = "cccf8cb0a43c4877be838d55c3673a3b";
+
+    @Value("${client.id}")
+    private static final String CLIENT_ID;
+    @Value("${client.secret}")
+    private static final String CLIENT_SECRET;
     private static final SpotifyApi spotifyApi = new SpotifyApi.Builder().setClientId(CLIENT_ID).setClientSecret(CLIENT_SECRET).build();
 
     public static String accessToken() {

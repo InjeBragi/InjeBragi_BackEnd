@@ -51,8 +51,6 @@ dependencies {
 
 	//spotify
 	implementation 'com.github.thelinmichael:spotify-web-api-java:master-SNAPSHOT'
-
-
 }
 
 allprojects {

@@ -40,7 +40,6 @@ public class LikeService {
             likesRepository.delete(found.get());
             likesRepository.flush();
         }
-
         return BoardResponse.from(board.get());
     }
 }
