@@ -1,8 +1,8 @@
 package com.inje.bragi.entity;
 
-import com.inje.bragi.entity.common.MemberType;
-import com.inje.bragi.entity.dto.request.MemberUpdateRequest;
-import com.inje.bragi.entity.dto.request.SignUpRequest;
+import com.inje.bragi.common.MemberType;
+import com.inje.bragi.dto.request.MemberUpdateRequest;
+import com.inje.bragi.dto.request.SignUpRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigInteger;
-import java.time.LocalDateTime;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,6 +38,23 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberType type;
 
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
+    private Image image;
+
+    private Integer receivedLikeCnt;
+
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
+    private List<Board> boards;
+
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
+    private List<Track> tracks;
+
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
+    private List<Like> likes;
+
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
+    private List<Comment> comments;
+
     public static Member from(SignUpRequest request, PasswordEncoder encoder) {
         return Member.builder()
                 .account(request.account())
@@ -53,5 +70,9 @@ public class Member {
                 ? this.password : encoder.encode(newMember.newPassword());
         this.name = newMember.name();
         this.age = newMember.age();
+    }
+
+    public void likeChange(Integer receivedLikeCnt) {
+        this.receivedLikeCnt = receivedLikeCnt;
     }
 }

@@ -1,3 +1,5 @@
+application-oauth.properties
+application-spotify.properties
 HELP.md
 .gradle
 build/

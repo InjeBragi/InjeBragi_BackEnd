@@ -30,12 +30,15 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+	implementation('commons-io:commons-io:2.11.0')
+
 	//Spring JPA
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
 	//Spring Security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	testImplementation 'org.springframework.security:spring-security-test'
+	//implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 	//postgreSQL
 	runtimeOnly 'org.postgresql:postgresql'
@@ -45,6 +48,15 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
+
+	//spotify
+	implementation 'com.github.thelinmichael:spotify-web-api-java:master-SNAPSHOT'
+}
+
+allprojects {
+	repositories {
+		maven { url 'https://jitpack.io' }
+	}
 }
 
 tasks.named('test') {
